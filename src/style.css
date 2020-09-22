@@ -1,0 +1,17 @@
+.carrito
+{
+    height: 50px;
+}
+.hamburguesa
+{
+    height: 100%;
+    width: 100%;
+}
+.nav-item
+{
+    color: white;
+}
+.TextoHamburguer
+{
+    text-align: center; border-bottom: 1px solid gray; border-top: 1px solid gray;padding: 10px; margin-top: 10px;
+}
