@@ -367,6 +367,7 @@ async function burguer() {
 async function listCarrito() {
   getPedidos().then((data) => {
     miCarrito = [];
+    var total = 0;
     const productosDiv = document.getElementById("printcard");
     productosDiv.querySelectorAll("*").forEach((n) => n.remove());
     let table = document.createElement("table");
@@ -381,15 +382,17 @@ async function listCarrito() {
       th1.className = "col-4";
       tr1.append(th1);
     });
+    var cont = 0;
     for (let i = 0; i < pedidos.length; i++) {
       let contadorCarrito = contarRepetidos(pedidos[i].name);
 
       if (contiene(pedidos[i].name) == false) {
         miCarrito.push(pedidos[i]);
+        ++cont;
         let tr2 = table.insertRow();
         let td1 = document.createElement("th");
         td1.className = "col-4";
-        td1.textContent = i;
+        td1.textContent = cont;
         let td2 = document.createElement("td");
         td2.className = "col-4";
         td2.textContent = contadorCarrito;
@@ -401,6 +404,7 @@ async function listCarrito() {
         td4.textContent = pedidos[i].price + "$";
         let td5 = document.createElement("td");
         td5.textContent = contadorCarrito * pedidos[i].price + "$";
+        total += contadorCarrito * pedidos[i].price;
         td5.className = "col-4";
         tr2.append(td1);
         tr2.append(td2);
@@ -425,7 +429,7 @@ async function listCarrito() {
     rowsit.className = "row";
     let cost = document.createElement("div");
     cost.className = "col";
-    cost.textContent = "Total: $";
+    cost.textContent = "Total: $" + total;
     let cancel = document.createElement("div");
     cancel.className = "col d-flex justify-content-end ";
     let botcancel = document.createElement("button");
