@@ -13,5 +13,9 @@
 }
 .TextoHamburguer
 {
-    text-align: center; border-bottom: 1px solid gray; border-top: 1px solid gray;padding: 10px; margin-top: 10px;
+    text-align: center; border-bottom: 1px solid gray; border-top: 1px solid gray; margin-top: 10px;
+}
+#enCarrito
+{
+    padding-top: 10px;
 }
