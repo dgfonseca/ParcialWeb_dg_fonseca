@@ -1,4 +1,6 @@
+let miCarrito = [];
 let pedidos=[];
+let consolita=[];
 
 async function enCarrito()
 {
@@ -356,8 +358,6 @@ async function burguer() {
             cardButon.className = "btn btn-primary";
             cardButon.innerText = "Add to car";
             cardButon.onclick = function(){pedidos.push(data[0].products[i]); getEnCarrito();}
-
-
             cardBody.append(cardTitle);
             cardBody.append(cardDescription);
             cardBody.append(cardPrice);
@@ -375,65 +375,68 @@ async function burguer() {
 async function listCarrito()
 {
     getPedidos().then(data =>{
+
+    
+    
     const productosDiv = document.getElementById("printcard");
     productosDiv.querySelectorAll('*').forEach(n => n.remove());
-    productosDiv.className="container-fluid";
     let table = document.createElement("table");
-    table.className ="table table-striped"
-    let thread = document.createElement("thread");
-    let tr1 = document.createElement("tr");
-    let th1 = document.createElement("th");
-    th1.textContent="Item"
-    let th2 = document.createElement("th");
-    th2.textContent="Qty";
-    let th3 = document.createElement("th");
-    th3.textContent="description";
-    let th4 = document.createElement("th");
-    th4.textContent="Unit Price";
-    let th5 = document.createElement("th");
-    th5.textContent="Amount";
-    tr1.appendChild(th1);
-    tr1.appendChild(th2);
-    tr1.appendChild(th3);
-    tr1.appendChild(th4);
-    tr1.appendChild(th5);
-    thread.appendChild(tr1);
-    table.appendChild(thread);
-    let tbody = document.createElement("tbody");
-    let x = [];
-    var price = 0;
-    for(let i = 0; i<data.length;i++)
-    {
-        let trr = document.createElement("tr");
-        let th11 = document.createElement("th");
-        th11.textContent= i;
-        let td1 = document.createElement("td");
-        td1.textContent =  i;
-        let td2 = document.createElement("td");
-        td2.textContent = data[i].name; 
-        let td4 = document.createElement("td");
-        td4.textContent = data[i].price;
-        let td5 = document.createElement("td");
-        td5.textContent = 1*data[i].price;
-        price += data[i].price;
-        trr.appendChild(th11);
-        trr.appendChild(td1);
-        trr.appendChild(td2);
-        trr.appendChild(td4);
-        trr.appendChild(td5);
-        tbody.appendChild(trr);
+    table.className="table table-striped d-flex justify-content-center w-100 p-3";
+    let thread = table.createTHead();
+    let tr1 = table.insertRow();
+    let dict = ["Id","Qty","Description","Price","Amount"];
+    dict.forEach(element => {
+        let th1 = document.createElement("th");
+        th1.textContent = element;
+        th1.className="col-4";
+        tr1.append(th1);
+    });
+    for(let i = 0; i<pedidos.length;i++) {
+        
+        let contadorCarrito = contarRepetidos(pedidos[i].name);
+
+        if(contiene(pedidos[i].name)==false){
+            miCarrito.push(pedidos[i]);
+            let tr2 = table.insertRow();
+            let td1 = document.createElement("th");
+            td1.className="col-4";
+            td1.textContent=i;
+            let td2 = document.createElement("td");
+            td2.className="col-4";
+            td2.textContent=contadorCarrito;
+            let td3 = document.createElement("td");
+            td3.className="col-4";
+            td3.textContent=pedidos[i].name;
+            let td4 = document.createElement("td");
+            td4.className="col-4";
+            td4.textContent=pedidos[i].price;
+            let td5 = document.createElement("td");
+            td5.textContent=contadorCarrito*pedidos[i].price;
+            td5.className="col-4";
+            tr2.append(td1);
+            tr2.append(td2);
+            tr2.append(td3);
+            tr2.append(td4);
+            tr2.append(td5);
+
+            let obje = {item :i, quantity:contadorCarrito, description:pedidos[i].name, unitPrice: pedidos[i].price}
+            consolita.push(obje);
+        
+        }
+        
     }
-    table.appendChild(tbody);
-    productosDiv.appendChild(table);
+    productosDiv.append(table);
+
+
     let cot = document.createElement("div");
-    cot.className="container";
+    cot.className="container w-100 p-3";
     let rowsit=document.createElement("div");
     rowsit.className="row";
     let cost = document.createElement("div");
     cost.className="col";
-    cost.textContent="Total: $"+ price;
+    cost.textContent="Total: $";
     let cancel = document.createElement("div");
-    cancel.className="col";
+    cancel.className="col d-flex justify-content-end ";
     let botcancel = document.createElement("button");
     botcancel.style.backgroundColor="red";
     botcancel.textContent="Cancel";
@@ -442,7 +445,10 @@ async function listCarrito()
         if (confirm("Are you sure about cancelling the order!")) {
           txt = "You pressed OK!";
           pedidos=[];
+          miCarrito=[];
           getEnCarrito();
+          listCarrito();
+          consolita();
         } else {
           txt = "You pressed Cancel!";
         }
@@ -453,7 +459,7 @@ async function listCarrito()
     let buybut= document.createElement("button");
     buybut.style.backgroundColor="pink";
     buybut.textContent="Confirm order";
-    buybut.onclick=function(){console.log(pedidos); pedidos=[]; getEnCarrito();}
+    buybut.onclick=function(){console.log(consolita); pedidos=[];miCarrito=[];consolita=[]; getEnCarrito();listCarrito();}
     cancel.append(botcancel);
     buy.append(buybut);
     rowsit.append(cost);
@@ -478,4 +484,29 @@ async function contarRepetidos(param)
     });
     return contador;
     
+}
+
+function contarRepetidos(param)
+{
+    var contador = 0;
+    pedidos.forEach(element=>{
+        if(element.name===param)
+        {
+            ++contador;
+        }
+    });
+    return contador;
+}
+function contiene(param)
+{
+    var bol = false;
+    miCarrito.forEach(element => {
+
+        if(element.name===param)
+        {
+            bol=true;
+        }
+        
+    });
+    return bol;
 }
