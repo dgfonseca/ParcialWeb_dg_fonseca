@@ -366,6 +366,7 @@ async function burguer() {
 
 async function listCarrito() {
   getPedidos().then((data) => {
+    miCarrito = [];
     const productosDiv = document.getElementById("printcard");
     productosDiv.querySelectorAll("*").forEach((n) => n.remove());
     let table = document.createElement("table");
