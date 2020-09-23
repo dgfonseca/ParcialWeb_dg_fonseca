@@ -1,27 +1,26 @@
-.carrito
-{
-    height: 50px;
+.carrito {
+  height: 50px;
+  cursor: pointer;
 }
-.hamburguesa
-{
-        width: 100%;
+.hamburguesa {
+  width: 100%;
 }
-.nav-item
-{
-    color: white;
+.nav-item {
+  color: white;
 }
-.TextoHamburguer
-{
-    text-align: center; border-bottom: 1px solid gray; border-top: 1px solid gray; margin-top: 10px;
+.TextoHamburguer {
+  text-align: center;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  margin-top: 10px;
 }
-#enCarrito
-{
-    padding-top: 10px;
+#enCarrito {
+  padding-top: 10px;
 }
 .container {
-    margin-right: auto;
-    margin-left: auto;
+  margin-right: auto;
+  margin-left: auto;
 }
-tbody{
-    width: 100%;
+tbody {
+  width: 100%;
 }
